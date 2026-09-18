@@ -1,7 +1,7 @@
 """
 Self-Improvement Engine for Persistent Obsidian Memory System.
 Extracts user corrections, root causes of mistakes, and actionable directives
-to create a continuous learning loop directly within Obsidian Vault Lemonaru.
+to create a continuous learning loop directly within the Obsidian Vault.
 """
 
 import os
@@ -17,7 +17,12 @@ CORRECTION_PATTERNS = [
     r"(?i)(?:berapa informasi|kapasitas|batasi|chatnya ilang|ga efektif|make a plan)"
 ]
 
-DEFAULT_LEARNING_LOG = Path("D:/Dokumen/02_Kerja_Profesional/Myself/Vault/Lemonaru/00_Meta/Learnings/AI_Continuous_Learning_Log.md")
+try:
+    from .config import DEFAULT_VAULT_ROOT
+except ImportError:
+    from core.config import DEFAULT_VAULT_ROOT
+
+DEFAULT_LEARNING_LOG = DEFAULT_VAULT_ROOT / "00_Meta" / "Learnings" / "AI_Continuous_Learning_Log.md"
 
 
 class SelfImprovementEngine:
@@ -58,7 +63,7 @@ class SelfImprovementEngine:
             return "Akurasi Judul Sesi"
         if any(k in t_low for k in ("vault", "obsidian", "memory", "ingatan")):
             return "Navigasi Memori Vault"
-        if any(k in t_low for k in ("folder", ".agent", "myself", "lokasi", "tempat")):
+        if any(k in t_low for k in ("folder", ".agent", "lokasi", "tempat")):
             return "Lokasi Skills & Direktori"
         if any(k in t_low for k in ("perintah", "kurang jelas", "bukan")):
             return "Kepatuhan Instruksi Pengguna"
@@ -71,10 +76,10 @@ class SelfImprovementEngine:
             return "Batasi isi setiap berkas catatan sesi maksimal 10 giliran user / ~250 baris. Pecah sesi panjang menjadi Part 01, Part 02 dengan tautan dua arah, dan hubungkan ke node konsep di 00_Meta/Concepts."
         if "judul" in t_low or "sesuai dengan isi" in t_low:
             return "Jangan gunakan prompt pertama mentah sebagai judul. Rangkum esensi tugas dan konteks substantif seluruh chat."
-        if "folder" in t_low and ("myself" in t_low or ".agent" in t_low):
-            return "Pusatkan seluruh skill, tool arsitektur, dan memory agent di D:/Dokumen/02_Kerja_Profesional/Myself/.agents, jangan membuat salinan terpecah."
+        if "folder" in t_low and ".agent" in t_low:
+            return "Pusatkan seluruh skill, tool arsitektur, dan memory agent di direktori .agents terpusat, jangan membuat salinan terpecah."
         if "obsidian" in t_low or "vault" in t_low:
-            return "Selalu prioritaskan membaca Vault Obsidian Lemonaru saat membahas riwayat lampau atau progres kerja."
+            return "Selalu prioritaskan membaca Vault Obsidian saat membahas riwayat lampau atau progres kerja."
         return "Pahami intensi substantif di balik pertanyaan pengguna sebelum merespons secara teknis kaku."
 
     @classmethod
@@ -117,7 +122,7 @@ updated: {date_today}
 
 # 🧠 AI Continuous Learning & Self-Improvement Log
 
-Buku catatan akumulasi pelajaran penting, koreksi dari pengguna, dan evolusi aturan kerja agen Antigravity di Obsidian Vault Lemonaru.
+Buku catatan akumulasi pelajaran penting, koreksi dari pengguna, dan evolusi aturan kerja agen di Obsidian Vault.
 
 ---
 

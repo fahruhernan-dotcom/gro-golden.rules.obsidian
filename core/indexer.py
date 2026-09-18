@@ -15,9 +15,7 @@ from typing import Dict, List, Any, Optional
 try:
     from .config import DEFAULT_LOGS_DIR, REQUIRED_HUB_TAGS, REQUIRED_SUBHUB_TAGS
 except ImportError:
-    DEFAULT_LOGS_DIR = Path(r"D:\Dokumen\02_Kerja_Profesional\Myself\Vault\Lemonaru\00_Meta\Antigravity Logs")
-    REQUIRED_HUB_TAGS = ["type/master-hub", "type/moc", "source/antigravity"]
-    REQUIRED_SUBHUB_TAGS = ["type/sub-hub", "type/moc", "source/antigravity"]
+    from core.config import DEFAULT_LOGS_DIR, REQUIRED_HUB_TAGS, REQUIRED_SUBHUB_TAGS
 
 
 class MOCIndexer:

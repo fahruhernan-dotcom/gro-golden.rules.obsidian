@@ -13,8 +13,10 @@ from .models import SearchResult
 try:
     from .config import DEFAULT_LOGS_DIR, DEFAULT_VAULT_ROOT
 except ImportError:
-    DEFAULT_LOGS_DIR = Path(r"D:\Dokumen\02_Kerja_Profesional\Myself\Vault\Lemonaru\00_Meta\Antigravity Logs")
-    DEFAULT_VAULT_ROOT = Path(r"D:\Dokumen\02_Kerja_Profesional\Myself\Vault\Lemonaru")
+    try:
+        from core.config import DEFAULT_LOGS_DIR, DEFAULT_VAULT_ROOT
+    except ImportError:
+        from config import DEFAULT_LOGS_DIR, DEFAULT_VAULT_ROOT
 
 
 def parse_frontmatter(content: str) -> Dict[str, Any]:

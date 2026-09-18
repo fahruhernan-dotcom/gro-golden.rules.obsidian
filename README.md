@@ -3,8 +3,8 @@
 
 [![Python Version](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue.svg?style=for-the-badge&logo=python)](https://python.org)
 [![Pytest Suite](https://img.shields.io/badge/Pytest-58%2F58%20Passing%20(100%25)-success.svg?style=for-the-badge&logo=pytest)](https://docs.pytest.org)
-[![Architecture](https://img.shields.io/badge/Architecture-3--Tier%20Clean%20Decoupled-orange.svg?style=for-the-badge)](file:///d:/Dokumen/02_Kerja_Profesional/Myself/golden-rules-obsidian/core)
-[![License](https://img.shields.io/badge/License-MIT-purple.svg?style=for-the-badge)](file:///d:/Dokumen/02_Kerja_Profesional/Myself/golden-rules-obsidian/LICENSE)
+[![Architecture](https://img.shields.io/badge/Architecture-3--Tier%20Clean%20Decoupled-orange.svg?style=for-the-badge)](./core)
+[![License](https://img.shields.io/badge/License-MIT-purple.svg?style=for-the-badge)](./LICENSE)
 
 ---
 
@@ -147,7 +147,7 @@ Temukan keputusan arsitektur dan potongan kode dari ratusan sesi lampau dalam hi
 gro search "Supabase RLS"
 
 # Filter berdasarkan workspace spesifik dan batas tanggal
-gro search "migration" --workspace "Juragan" --after 2026-08-01
+gro search "migration" --workspace "EcommerceBackend" --after 2026-08-01
 
 # Ekspor hasil pencarian ke JSON murni (cocok untuk piping ke agent LLM)
 gro search "VPS Ubuntu" --json --limit 5
@@ -213,10 +213,10 @@ tests/test_workspace.py::test_resolve_from_windows_path PASSED          [ 93%]
 - 📍 Surakarta, Central Java, Indonesia  
 - 📧 [fahruhernansakti@gmail.com](mailto:fahruhernansakti@gmail.com)  
 - 🔗 [LinkedIn Profile](https://www.linkedin.com/in/fahrurosadi-hernan-b983a4158)  
-- 💼 [Portfolio Case Studies](file:///d:/Dokumen/02_Kerja_Profesional/Myself/Personal/PORTFOLIO_SHOWCASE.md)
+- 💼 [GitHub Profile](https://github.com/fahruhernansakti)
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](file:///d:/Dokumen/02_Kerja_Profesional/Myself/golden-rules-obsidian/LICENSE) file for details.
+This project is licensed under the **MIT License** — see the [LICENSE](./LICENSE) file for details.

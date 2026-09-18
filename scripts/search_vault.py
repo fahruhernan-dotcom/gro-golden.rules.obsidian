@@ -79,7 +79,7 @@ def search_vault(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Cari catatan riwayat percakapan di Obsidian Vault Lemonaru.")
+    parser = argparse.ArgumentParser(description="Cari catatan riwayat percakapan di Obsidian Vault.")
     parser.add_argument("query", type=str, nargs="?", default="", help="Kata kunci pencarian")
     parser.add_argument("--workspace", type=str, default=None, help="Filter berdasarkan workspace/proyek")
     parser.add_argument("--after", type=str, default=None, help="Hanya sesi setelah tanggal ini (YYYY-MM-DD)")

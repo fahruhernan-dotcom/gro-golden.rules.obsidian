@@ -21,27 +21,21 @@ except ImportError:
 try:
     from .config import DEFAULT_LOGS_DIR
 except ImportError:
-    DEFAULT_LOGS_DIR = Path("D:/Dokumen/02_Kerja_Profesional/Myself/Vault/Lemonaru/00_Meta/Antigravity Logs")
+    from core.config import DEFAULT_LOGS_DIR
 
 MAX_USER_TURNS_PER_NOTE: int = 8  # Proactive Turn-8 Checkpoint Threshold (Council Amendment)
 MAX_LINES_PER_NOTE: int = 300
 
+# Universal Domain Concept Rules for Automatic Star Graph Clustering
 CONCEPT_RULES: Dict[str, List[str]] = {
-    "Dignity Command Center": ["command center", "dignity", "admin dashboard", "web admin"],
-    "PRD Master Index & Modular Architecture": ["prd", "modular", "arsitektur", "master index", "modul"],
-    "Stage Management & Rundown Engine": ["rundown", "stage cue", "teleprompter", "stage management", "timeline", "jadwal"],
-    "Google Workspace Two-Way Sync": ["google sheets", "two-way sync", "sync", "drive", "spreadsheet"],
-    "Obsidian Vault Memory & Capacity Rules": ["vault", "kapasitas", "atomic notes", "graph-native", "memory rules", "chunking", "part 0"],
-    "TernakOS Core Architecture": ["ternakos", "ternak", "peternak", "kambing", "sapi", "domba", "pakan", "bobot", "qr"],
-    "Admin Panel & Multi-Tenancy": ["admin", "superadmin", "multi-tenant", "tenant", "rbac", "role", "profil", "akses", "organisasi"],
-    "Juragan POS & Billing Engine": ["juragan", "pos", "kasir", "billing", "struk", "faktur", "invoice", "checkout", "transaksi", "pembayaran"],
-    "Inventory & Stock Sync": ["inventory", "stok", "stock", "gudang", "sku", "produk", "varian", "barang"],
-    "WhatsApp Commerce & Automation": ["whatsapp", "wa", "crm", "broadcast", "twilio", "chat bot", "pesan otomatis", "gateway"],
-    "Gopek Financial Analytics": ["gopek", "keuangan", "p&l", "laba", "rugi", "revenue", "analitik", "omset", "neraca"],
-    "Database & Supabase Architecture": ["supabase", "postgres", "postgresql", "sql", "migration", "tabel", "foreign key", "rls"],
-    "DevOps & Cloud Infrastructure": ["vps", "docker", "nginx", "deployment", "deploy", "ssl", "git push", "github", "ci/cd", "server"],
-    "Frontend UX & Responsive Design": ["tailwind", "css", "ui", "ux", "responsive", "frontend", "next.js", "react", "komponen", "landing page"],
-    "Skripsi & Academic Research": ["skripsi", "ta", "tugas akhir", "bab", "penelitian", "metodologi", "analisis data", "literatur", "jurnal", "sidang"]
+    "Architecture & System Design": ["architecture", "modular", "clean architecture", "system design", "pattern", "domain", "spec"],
+    "Database & Persistence": ["database", "schema", "postgres", "postgresql", "sql", "migration", "supabase", "sqlite", "orm", "crud", "query"],
+    "DevOps & Cloud Infrastructure": ["docker", "vps", "deployment", "kubernetes", "ci/cd", "nginx", "server", "linux", "cloud", "aws", "gcp"],
+    "Frontend UX & Design Systems": ["react", "frontend", "css", "tailwind", "ui", "ux", "component", "responsive", "design system", "next.js", "vite"],
+    "API & Service Integration": ["api", "rest", "graphql", "endpoint", "webhook", "grpc", "integration", "payload"],
+    "Security, Auth & RBAC": ["auth", "security", "jwt", "oauth", "encryption", "rbac", "permissions", "secret", "isolation"],
+    "AI Agent Systems & Memory": ["agent", "llm", "memory", "prompts", "council", "context", "token", "vector", "reasoning", "antigravity"],
+    "Obsidian Working Memory & Rules": ["vault", "atomic notes", "graph-native", "memory rules", "chunking", "part 0", "moc", "turn-8", "gro"]
 }
 
 

@@ -23,7 +23,7 @@ def test_render_session_markdown(mock_session):
     assert valid is True
     assert "type/ai-log" in fm["tags"]
     assert "source/antigravity" in fm["tags"]
-    assert fm["workspace"] == "TernakOS"
+    assert fm["workspace"] == "DemoApp"
     assert fm["conversation_id"] == "conv-abc-123"
 
     # 2. Sections
@@ -37,7 +37,7 @@ def test_render_session_markdown(mock_session):
     assert "- `src/lib/supabase.ts`" in md
 
     # 4. Workspace Sub-MOC link
-    assert "[[Index - TernakOS]]" in md
+    assert "[[Index - DemoApp]]" in md
 
     # 5. Folded transcript callout
     assert "> [!example]- 📖 Transkrip Dialog Lengkap" in md

@@ -24,7 +24,7 @@ def test_models_serialization(mock_session):
     d = mock_session.to_dict()
     assert d["conversation_id"] == "conv-abc-123"
     assert len(d["messages"]) == 2
-    assert d["workspace_name"] == "TernakOS"
+    assert d["workspace_name"] == "DemoApp"
 
     restored = ChatSession.from_dict(d)
     assert restored.conversation_id == mock_session.conversation_id
@@ -50,7 +50,7 @@ def test_normalize_valid_record(tmp_path):
     db_file = tmp_path / "conv-999.db"
     meta = {"trajectory_id": "conv-999"}
     # Trajectory metadata blob containing workspace path
-    blob = b"\n\x1a/Users/dev/Projects/TernakOS\x12\x08TernakOS"
+    blob = b"\n\x1a/Users/dev/Projects/DemoApp\x12\x08DemoApp"
     # Mock step tuples: (idx, step_type, status, metadata, task_details, step_payload)
     # Step type 14 = user input, 15 = assistant
     steps = [

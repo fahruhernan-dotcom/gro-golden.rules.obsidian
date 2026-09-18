@@ -69,7 +69,7 @@ def archive_session(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Arsipkan sesi Antigravity ke Obsidian Vault Lemonaru.")
+    parser = argparse.ArgumentParser(description="Arsipkan sesi percakapan AI ke Obsidian Vault.")
     parser.add_argument("--conv-id", type=str, default=None, help="Conversation/Trajectory ID spesifik")
     parser.add_argument("--topic", type=str, default=None, help="Judul kustom untuk topik sesi")
     parser.add_argument("--source", type=str, default=None, help="Direktori database sumber")

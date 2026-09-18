@@ -60,7 +60,7 @@ python golden-rules-obsidian/scripts/cli.py council "Dilema atau keputusan tekni
 ## 📁 Struktur Hirarki Vault
 
 ```
-Vault/Lemonaru/
+Your-Vault/
 ├── 00_Meta/
 │   ├── Antigravity Logs/
 │   │   ├── Index - Antigravity Logs.md    ← [Master Hub MOC]

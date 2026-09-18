@@ -15,8 +15,8 @@ from providers.antigravity.workspace import resolve_workspace_name, extract_work
 
 
 def test_resolve_from_direct_name():
-    name = resolve_workspace_name(workspace_name="TernakOS")
-    assert name == "TernakOS"
+    name = resolve_workspace_name(workspace_name="AwesomeSaas")
+    assert name == "AwesomeSaas"
 
 
 def test_resolve_from_windows_path():
@@ -31,16 +31,20 @@ def test_resolve_from_posix_path():
     assert name == "CompanyProfile"
 
 
-def test_resolve_with_alias():
-    path = r"D:\Dokumen\02_Kerja_Profesional\Myself"
-    name = resolve_workspace_name(workspace_path=path)
-    assert name == "Myself"
+def test_resolve_with_custom_alias():
+    from providers.antigravity.workspace import resolve_workspace
+    path = r"C:\Projects\custom-dir"
+    name, _ = resolve_workspace(
+        workspace_path_or_uri=path,
+        custom_aliases={"custom-dir": "MyCanonicalProject"}
+    )
+    assert name == "MyCanonicalProject"
 
 
 def test_resolve_from_blob():
-    blob = b"random\x00\x00d:\\Dokumen\\02_Kerja_Profesional\\Myself\\Vault\x00more"
+    blob = b"random\x00\x00/Users/dev/Projects/MicroserviceAPI\x00more"
     ws_name, ws_path = extract_workspace_from_blob(blob)
-    assert ws_name == "Myself"
+    assert ws_name == "MicroserviceAPI"
 
 
 def test_resolve_fallback_unknown():

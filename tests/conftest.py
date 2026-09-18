@@ -224,7 +224,7 @@ def mock_session():
     return ChatSession(
         conversation_id="conv-abc-123",
         workspace_id="ws-uuid-1",
-        workspace_name="TernakOS",
+        workspace_name="DemoApp",
         title="Setup Supabase Auth Next.js",
         started_at="2026-09-08T14:30:00+07:00",
         ended_at="2026-09-08T14:35:00+07:00",

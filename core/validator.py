@@ -12,10 +12,12 @@ try:
     from .config import DEFAULT_LOGS_DIR, MAIN_MOC_NAME, REQUIRED_TAGS
     from .models import ValidationReport
 except ImportError:
-    DEFAULT_LOGS_DIR = Path(r"D:\Dokumen\02_Kerja_Profesional\Myself\Vault\Lemonaru\00_Meta\Antigravity Logs")
-    MAIN_MOC_NAME = "Index - Antigravity Logs.md"
-    REQUIRED_TAGS = ["type/ai-log", "source/antigravity"]
-    from core.models import ValidationReport
+    try:
+        from core.config import DEFAULT_LOGS_DIR, MAIN_MOC_NAME, REQUIRED_TAGS
+        from core.models import ValidationReport
+    except ImportError:
+        from config import DEFAULT_LOGS_DIR, MAIN_MOC_NAME, REQUIRED_TAGS
+        from models import ValidationReport
 
 FILENAME_RE = re.compile(r'^\d{4}-\d{2}-\d{2}\s*-\s*\d{2}\.\d{2}\s*-\s*.+\.md$')
 

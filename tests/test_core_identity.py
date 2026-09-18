@@ -17,7 +17,7 @@ def test_compute_stable_identity_primary():
     session = ChatSession(
         conversation_id="conv-primary-12345",
         workspace_id="ws1",
-        workspace_name="Myself",
+        workspace_name="SampleWorkspace",
         title="Test Task",
         started_at="2026-09-08T10:00:00+07:00",
         ended_at="2026-09-08T10:10:00+07:00"
@@ -30,7 +30,7 @@ def test_compute_stable_identity_fallback_hash():
     session = ChatSession(
         conversation_id="",
         workspace_id="ws1",
-        workspace_name="Myself",
+        workspace_name="SampleWorkspace",
         title="Test Task",
         started_at="2026-09-08T10:00:00+07:00",
         ended_at="2026-09-08T10:10:00+07:00"
@@ -43,7 +43,7 @@ def test_compute_stable_identity_fallback_hash():
     session2 = ChatSession(
         conversation_id=None,
         workspace_id="ws1",
-        workspace_name="Myself",
+        workspace_name="SampleWorkspace",
         title="Test Task",
         started_at="2026-09-08T10:00:00+07:00",
         ended_at="2026-09-08T10:10:00+07:00"
