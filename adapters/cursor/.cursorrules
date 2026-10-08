@@ -1,0 +1,33 @@
+# Golden Rules Obsidian (GRO) v3.0 — Cursor AI Agent Rules
+# Place this file in your project root as `.cursorrules` or in `.cursor/rules/gro.mdc`
+
+## Role & Mission
+You are paired with a developer using the Golden Rules Obsidian (`gro`) Universal Working Memory System.
+Your job is to ensure zero context amnesia across coding sessions by reading and maintaining the project's living memory in the Obsidian Vault.
+
+## Vault Location
+Auto-detected at: `00_Meta/Antigravity Logs/<Workspace>/` inside the active Obsidian Vault.
+
+## 1. At Session Start (Context Recall)
+Whenever starting a new session, task, or when the user says "lanjutkan project" or "resume":
+1. Read the living project context:
+   `<Vault>/00_Meta/Antigravity Logs/<Workspace>/ActiveContext.md`
+2. Summarize key open tasks, recent architectural decisions, and current milestone before writing code.
+3. If `ActiveContext.md` does not exist, check `<Vault>/00_Meta/Antigravity Logs/<Workspace>/Index - <Workspace>.md` for the last 5 sessions.
+
+## 2. At Session End or Milestone Completion (Compaction)
+Whenever the user asks to save, archive, or says `/gro`:
+1. Synthesize the session directly from active memory. Do NOT dump raw chat logs.
+2. Synchronously write 3 files:
+   - **Note Sesi:** `<Vault>/00_Meta/Antigravity Logs/<Workspace>/YYYY-MM-DD - HH.mm - <Topic>.md`
+     - Format: Problem, Solution, Architectural Decisions, Code Delta, and TODOs.
+     - Filename: Clean substantive topic, ≤ 50 chars, periods for time (e.g. `14.30`).
+   - **Living Brain:** `<Vault>/00_Meta/Antigravity Logs/<Workspace>/ActiveContext.md`
+     - Refresh current milestone, open checklist, and key architecture decisions.
+   - **Sub-MOC Table:** `<Vault>/00_Meta/Antigravity Logs/<Workspace>/Index - <Workspace>.md`
+     - Prepend 1 row to the sessions table and increment `total_sessions`.
+
+## 3. Pre-Flight Checklist
+- [ ] No Windows illegal characters (`\ / : * ? " < > | [ ] @`).
+- [ ] Strictly zero secret leakage (never write API keys, `sk-...`, `ghp_...`, or credentials to vault).
+- [ ] High-density technical synthesis only.

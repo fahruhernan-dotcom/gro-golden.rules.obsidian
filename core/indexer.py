@@ -29,6 +29,133 @@ class MOCIndexer:
     def build_all(self) -> Dict[str, Any]:
         return self.build_all_indexes(self.logs_dir)
 
+    def update_workspace(self, workspace_name: str) -> Dict[str, Any]:
+        """
+        Incrementally updates ONLY the affected workspace Sub-Hub MOC
+        and re-links / updates its record in the Master Hub.
+        Much faster than build_all() for single-session archives.
+        """
+        base_dir = self.logs_dir
+        ws_dir = base_dir / workspace_name
+        if not ws_dir.exists():
+            ws_dir.mkdir(parents=True, exist_ok=True)
+
+        # Scan notes in this workspace only
+        notes = []
+        for note_file in sorted(ws_dir.glob("*.md")):
+            if note_file.name.startswith("Index - ") or note_file.name == "ActiveContext.md":
+                continue
+
+            dt_str = ""
+            topic_str = note_file.stem
+            m = re.match(r"^(\d{4}-\d{2}-\d{2})\s*-\s*(\d{2}\.\d{2})\s*-\s*(.+)$", note_file.stem)
+            if m:
+                date_part, time_part, topic_part = m.groups()
+                dt_str = f"{date_part} {time_part.replace('.', ':')}"
+                topic_str = topic_part
+            else:
+                try:
+                    mtime = note_file.stat().st_mtime
+                    dt_str = datetime.fromtimestamp(mtime).strftime("%Y-%m-%d %H:%M")
+                except Exception:
+                    dt_str = "Unknown Date"
+
+            deliverable = self._extract_deliverable(note_file)
+            notes.append({
+                "file_path": note_file,
+                "stem": note_file.stem,
+                "datetime": dt_str,
+                "topic": topic_str,
+                "deliverable": deliverable
+            })
+
+        # Build Sub-MOC for this workspace
+        sub_moc_file = ws_dir / f"Index - {workspace_name}.md"
+        notes.sort(key=lambda x: x["datetime"], reverse=True)
+
+        table_rows = []
+        for n in notes:
+            clean_topic = n["topic"].replace("|", "-")
+            clean_deliverable = n.get("deliverable", "-").replace("|", "-")
+            table_rows.append(f"| `{n['datetime']}` | [[{n['stem']}]] | {clean_topic} | {clean_deliverable} |")
+
+        table_content = "\n".join(table_rows) if table_rows else "| - | *(Belum ada sesi tercatat)* | - | - |"
+
+        sub_moc_content = f"""---
+tags:
+  - type/sub-hub
+  - type/moc
+  - source/antigravity
+workspace: "{workspace_name}"
+up: "[[Index - Antigravity Logs]]"
+total_sessions: {len(notes)}
+---
+
+# 📁 Hub: {workspace_name}
+
+> [!info] 🧭 Navigasi Hirarki
+> - **Induk Sentral:** [[Index - Antigravity Logs]]
+> - **Total Sesi:** `{len(notes)}` percakapan
+> - **Workspace:** `{workspace_name}`
+
+---
+
+## 📋 Daftar Riwayat Percakapan Antigravity
+
+| Tanggal & Waktu | Catatan Sesi | Topik | Ringkasan / Hasil Utama |
+| :--- | :--- | :--- | :--- |
+{table_content}
+
+---
+- 🔗 Kembali ke: [[Index - Antigravity Logs]]
+"""
+        sub_moc_file.write_text(sub_moc_content, encoding="utf-8")
+
+        # Update Master Hub without full rebuild if it exists
+        main_moc_file = base_dir / "Index - Antigravity Logs.md"
+        if not main_moc_file.exists():
+            return self.build_all()
+
+        self._update_master_hub_row(main_moc_file, workspace_name, len(notes))
+
+        return {
+            "status": "updated",
+            "workspace": workspace_name,
+            "sub_moc": str(sub_moc_file),
+            "sessions_count": len(notes),
+            "main_moc": str(main_moc_file),
+        }
+
+    @classmethod
+    def _update_master_hub_row(cls, main_moc_file: Path, workspace_name: str, count: int) -> None:
+        """Helper to incrementally update or insert a workspace row in the Master Hub."""
+        try:
+            content = main_moc_file.read_text(encoding="utf-8")
+        except Exception:
+            return
+
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+        # Update last modified if present
+        content = re.sub(r"-\s*\*\*Terakhir Diperbarui:\*\*\s*`[^`]*`", f"- **Terakhir Diperbarui:** `{now_str}`", content)
+
+        pattern = re.compile(rf"\|\s*(\d+)\s*\|\s*\*\*?{re.escape(workspace_name)}\*\*?\s*\|\s*\[\[Index - {re.escape(workspace_name)}\]\]\s*\|\s*`?\d+`?\s*sesi\s*\|")
+        match = pattern.search(content)
+
+        if match:
+            idx = match.group(1)
+            new_row = f"| {idx} | **{workspace_name}** | [[Index - {workspace_name}]] | `{count}` sesi |"
+            content = content[:match.start()] + new_row + content[match.end():]
+        else:
+            # Workspace not in table, append to workspace table
+            table_header_pos = content.find("## 🗂️ Direktori Sub-Indeks Workspace")
+            if table_header_pos != -1:
+                next_sep = content.find("\n---\n", table_header_pos)
+                if next_sep != -1:
+                    new_row = f"| + | **{workspace_name}** | [[Index - {workspace_name}]] | `{count}` sesi |\n"
+                    content = content[:next_sep] + new_row + content[next_sep:]
+
+        main_moc_file.write_text(content, encoding="utf-8")
+
     @staticmethod
     def _extract_deliverable(note_file: Path) -> str:
         """Extracts a short one-line executive summary / deliverable from a session note."""
@@ -76,7 +203,7 @@ class MOCIndexer:
 
             ws_name = ws_dir.name
             for note_file in sorted(ws_dir.glob("*.md")):
-                if note_file.name.startswith("Index - "):
+                if note_file.name.startswith("Index - ") or note_file.name == "ActiveContext.md":
                     continue
 
                 total_sessions += 1

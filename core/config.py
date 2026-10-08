@@ -1,9 +1,10 @@
 """
-Central configuration for Persistent Obsidian Memory System.
+Central configuration for Golden Rules Obsidian (GRO) v3.0 Universal Engine.
 Provides path resolution, environment detection, and constants.
-Zero hardcoded user or project paths: fully portable across Windows, macOS, and Linux.
+100% Zero-Dependency: Uses pure Python standard library only.
 """
 
+from __future__ import annotations
 import os
 import sys
 from pathlib import Path
@@ -11,10 +12,6 @@ from typing import Optional
 
 # Resolve User Profile across Windows / POSIX
 USER_PROFILE = Path(os.environ.get("USERPROFILE", os.path.expanduser("~")))
-
-# Default Storage Root for Antigravity provider
-DEFAULT_ANTIGRAVITY_ROOT = USER_PROFILE / ".gemini" / "antigravity-ide"
-DEFAULT_CONVERSATIONS_DIR = DEFAULT_ANTIGRAVITY_ROOT / "conversations"
 
 
 def find_obsidian_vault(start_path: Optional[Path] = None) -> Path:
@@ -33,18 +30,30 @@ def find_obsidian_vault(start_path: Optional[Path] = None) -> Path:
     for p in [curr] + list(curr.parents):
         if (p / ".obsidian").is_dir():
             return p
-        if (p / "vault").is_dir() and (p / "vault" / ".obsidian").is_dir():
-            return p / "vault"
-        if (p / "Vault").is_dir() and (p / "Vault" / ".obsidian").is_dir():
-            return p / "Vault"
+        for v_name in ("vault", "Vault"):
+            v_dir = p / v_name
+            if v_dir.is_dir():
+                if (v_dir / ".obsidian").is_dir() or (v_dir / "00_Meta").is_dir():
+                    return v_dir
+                # Check 1 level down inside Vault (e.g. Vault/Lemonaru)
+                try:
+                    for sub in v_dir.iterdir():
+                        if sub.is_dir() and ((sub / ".obsidian").is_dir() or (sub / "00_Meta").is_dir()):
+                            return sub
+                except Exception:
+                    pass
 
-    # Secondary check for a directory named 'vault' or 'Vault' in cwd
+    # Check user profile Obsidian vault if it has 00_Meta or .obsidian
+    user_vault = USER_PROFILE / "Obsidian" / "Vault"
+    if (user_vault / "00_Meta").exists() or (user_vault / ".obsidian").exists():
+        return user_vault
+
+    # Check candidate in cwd if it contains 00_Meta
     for name in ("vault", "Vault"):
         candidate = curr / name
-        if candidate.is_dir():
+        if candidate.is_dir() and ((candidate / ".obsidian").is_dir() or (candidate / "00_Meta").is_dir()):
             return candidate
 
-    # Standard default in user profile
     for home_candidate in (
         USER_PROFILE / "Documents" / "Obsidian",
         USER_PROFILE / "Obsidian" / "Vault",
@@ -52,7 +61,7 @@ def find_obsidian_vault(start_path: Optional[Path] = None) -> Path:
         if home_candidate.exists():
             return home_candidate
 
-    return USER_PROFILE / "Obsidian" / "Vault"
+    return user_vault
 
 
 DEFAULT_VAULT_ROOT = find_obsidian_vault()
@@ -62,10 +71,7 @@ VAULT_LOGS_DIR = DEFAULT_LOGS_DIR
 DEFAULT_MAIN_MOC = DEFAULT_LOGS_DIR / "Index - Antigravity Logs.md"
 MAIN_MOC_NAME = "Index - Antigravity Logs.md"
 
-# Normalized Intermediate Storage
-DEFAULT_NORMALIZED_DIR = Path(__file__).resolve().parent.parent / "normalized"
-
-# Default Timezone
+# Timezone default
 DEFAULT_TIMEZONE = os.environ.get("GRO_TIMEZONE", "Asia/Jakarta")
 
 # Windows Reserved Names

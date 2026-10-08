@@ -7,16 +7,20 @@ import re
 import sys
 from pathlib import Path
 from datetime import datetime
-from typing import List, Dict, Any, Optional
+from dataclasses import dataclass, field
+from .config import DEFAULT_LOGS_DIR, DEFAULT_VAULT_ROOT
 
-from .models import SearchResult
-try:
-    from .config import DEFAULT_LOGS_DIR, DEFAULT_VAULT_ROOT
-except ImportError:
-    try:
-        from core.config import DEFAULT_LOGS_DIR, DEFAULT_VAULT_ROOT
-    except ImportError:
-        from config import DEFAULT_LOGS_DIR, DEFAULT_VAULT_ROOT
+
+@dataclass
+class SearchResult:
+    title: str
+    stem: str
+    workspace: str
+    date: str
+    path: str
+    full_path: str
+    matched_snippets: List[str] = field(default_factory=list)
+    full_content: Optional[str] = None
 
 
 def parse_frontmatter(content: str) -> Dict[str, Any]:

@@ -8,16 +8,21 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Set, Any, Tuple, Optional
 
-try:
-    from .config import DEFAULT_LOGS_DIR, MAIN_MOC_NAME, REQUIRED_TAGS
-    from .models import ValidationReport
-except ImportError:
-    try:
-        from core.config import DEFAULT_LOGS_DIR, MAIN_MOC_NAME, REQUIRED_TAGS
-        from core.models import ValidationReport
-    except ImportError:
-        from config import DEFAULT_LOGS_DIR, MAIN_MOC_NAME, REQUIRED_TAGS
-        from models import ValidationReport
+from dataclasses import dataclass, field
+from .config import DEFAULT_LOGS_DIR, MAIN_MOC_NAME, REQUIRED_TAGS
+
+
+@dataclass
+class ValidationReport:
+    status: str
+    total_notes: int
+    total_workspaces: int
+    valid_frontmatter: int
+    broken_links: int
+    duplicate_conversation_ids: List[str]
+    missing_transcripts: int
+    issues: List[str] = field(default_factory=list)
+    warnings: List[str] = field(default_factory=list)
 
 FILENAME_RE = re.compile(r'^\d{4}-\d{2}-\d{2}\s*-\s*\d{2}\.\d{2}\s*-\s*.+\.md$')
 

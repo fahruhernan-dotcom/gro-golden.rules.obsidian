@@ -1,28 +1,23 @@
 """
-Persistent Obsidian Memory System - Core Package.
-Agent-agnostic memory engine providing models, indexing, search, rendering, validation, and identity.
+Golden Rules Obsidian (`gro`) v3.0 - Core Package.
+Zero-Dependency Universal Working Memory & Knowledge Architecture for AI Coding Agents.
+Pure Python Standard Library.
 """
 
-from .models import ChatMessage, ChatSession, Workspace, DiscoveryReport, InspectionReport, SearchResult, ValidationReport
-from .history_provider import HistoryProvider
-from .identity import SessionIdentityResolver
-from .archive_engine import ArchiveEngine
+from .config import find_obsidian_vault, DEFAULT_LOGS_DIR, DEFAULT_VAULT_ROOT
+from .sanitizer import sanitize_filename
 from .indexer import MOCIndexer
-from .search import VaultSearchEngine
-from .validator import VaultValidator
+from .validator import VaultValidator, ValidationReport
+from .search import VaultSearchEngine, SearchResult
 
 __all__ = [
-    "ChatMessage",
-    "ChatSession",
-    "Workspace",
-    "DiscoveryReport",
-    "InspectionReport",
-    "SearchResult",
-    "ValidationReport",
-    "HistoryProvider",
-    "SessionIdentityResolver",
-    "ArchiveEngine",
+    "find_obsidian_vault",
+    "DEFAULT_LOGS_DIR",
+    "DEFAULT_VAULT_ROOT",
+    "sanitize_filename",
     "MOCIndexer",
-    "VaultSearchEngine",
     "VaultValidator",
+    "ValidationReport",
+    "VaultSearchEngine",
+    "SearchResult",
 ]
